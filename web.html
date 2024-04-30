@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion de tâches</title>
+</head>
+<body>
+  <h1>Gestion de tâches</h1>
+  
+  <h2>Important et Urgent</h2>
+  <ul id="importantUrgentTasks"></ul>
+  
+  <h2>Important mais Pas Urgent</h2>
+  <ul id="importantNotUrgentTasks"></ul>
+  
+  <h2>Pas Important mais Urgent</h2>
+  <ul id="notImportantUrgentTasks"></ul>
+  
+  <h2>Pas Important et Pas Urgent</h2>
+  <ul id="notImportantNotUrgentTasks"></ul>
+
+  <input type="text" id="taskInput" placeholder="Ajouter une tâche...">
+  <button onclick="addTask()">Ajouter</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

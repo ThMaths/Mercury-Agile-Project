@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 30 avr. 2024 à 12:24
+-- Généré le : mar. 30 avr. 2024 à 12:31
 -- Version du serveur : 8.0.34
 -- Version de PHP : 7.4.26
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `delegates`;
 CREATE TABLE IF NOT EXISTS `delegates` (
   `id` int NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `delegates` (
 DROP TABLE IF EXISTS `priority_level`;
 CREATE TABLE IF NOT EXISTS `priority_level` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `level` text NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `level` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -66,14 +66,22 @@ INSERT INTO `priority_level` (`id`, `level`, `name`) VALUES
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tiltle` varchar(255) DEFAULT NULL,
-  `desciption` varchar(255) DEFAULT NULL,
+  `tiltle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `desciption` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `type_id` int NOT NULL,
   `done` tinyint(1) DEFAULT NULL,
   `delegate_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_constraint` (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `tiltle`, `desciption`, `type_id`, `done`, `delegate_id`) VALUES
+(27, 'test29529', 'NULL', 1, 1, 0),
+(28, 'test29529', 'NULL', 1, 1, 0);
 
 --
 -- Contraintes pour les tables déchargées

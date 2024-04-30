@@ -21,6 +21,12 @@
   <ul id="notImportantNotUrgentTasks"></ul>
 
   <input type="text" id="taskInput" placeholder="Ajouter une tâche...">
+  <select id="prioritySelect">
+    <option value="1">Important et Urgent</option>
+    <option value="2">Important mais Pas Urgent</option>
+    <option value="3">Pas Important mais Urgent</option>
+    <option value="4">Pas Important et Pas Urgent</option>
+  </select>
   <button onclick="addTask()">Ajouter</button>
 
   <script src="script.js"></script>

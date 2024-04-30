@@ -50,7 +50,7 @@
       <!-- Colonne de droite avec la liste des tâches -->
       <div class="col-md-8">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6" onclick="ImportantAndUrgent()">
             <div class="card fixed-height bg-important-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title">Important et Urgent</h2>
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" onclick="ImportantNotUrgent()">
             <div class="card fixed-height bg-important-not-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title">Important mais Pas Urgent</h2>
@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="row mt-4">
-          <div class="col-md-6">
+          <div class="col-md-6" onclick="NotImportantButUrgent()">
             <div class="card fixed-height bg-not-important-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title">Pas Important mais Urgent</h2>
@@ -76,7 +76,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" onclick="NotImportantNotUrgent()">
             <div class="card fixed-height bg-not-important-not-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title">Pas Important et Pas Urgent</h2>

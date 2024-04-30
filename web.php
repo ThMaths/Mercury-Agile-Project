@@ -14,6 +14,9 @@
     .body{
       padding-bottom: 10%;
     }
+    .list-group{
+      margin-left: 10%;
+    }
     .fixed-height {
       height: 30vh; /* Hauteur fixe à 40% de la hauteur de la fenêtre */
       overflow-y: auto; /* Ajout d'une barre de défilement si le contenu dépasse */

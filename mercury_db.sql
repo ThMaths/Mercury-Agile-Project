@@ -52,10 +52,10 @@ CREATE TABLE IF NOT EXISTS `priority_level` (
 --
 
 INSERT INTO `priority_level` (`id`, `level`, `name`) VALUES
-(1, 'IMURG', 'IMPORTANT URGENT'),
-(2, 'IMNOTURG', 'IMPORTANT NOT URGENT'),
-(3, 'URGNOTIM', 'URGENT NOT IMPORTANT'),
-(4, 'NOTIMNOTURG', 'NOT IMPORTANT NOT URGENT');
+(1, 'IMURG', 'Important et Urgent'),
+(2, 'IMNOTURG', 'Important mais Pas Urgent'),
+(3, 'URGNOTIM', 'Pas Important mais Urgent'),
+(4, 'NOTIMNOTURG', 'Pas Important et Pas Urgent');
 
 -- --------------------------------------------------------
 

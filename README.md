@@ -1,4 +1,7 @@
 # BDD Informations
+## URL
+http://www.phpmyadmin.co
+## Identifiants
 - **Server:** sql11.freemysqlhosting.net
 - **Name:** sql11703179
 - **Username:** sql11703179

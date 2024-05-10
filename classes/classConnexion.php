@@ -5,8 +5,8 @@ class Connexion
     private static $instance;
     private $pdo;
     private $options = array(
-      PDO::ATTR_PERSISTENT => true, // Activation de la connexion persistante
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION // Activation du mode d'erreur exception
+      PDO::ATTR_PERSISTENT => true, 
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
   );
 
     public function __construct($host,$login,$password)

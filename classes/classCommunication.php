@@ -33,6 +33,12 @@ class Communication
                                             <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
                                         </li>';
                                                 }
+                                                elseif($priotity == 2)
+                                                {
+                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled><button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
+                                                    <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockDate('.$row['id'].')">lock</span> 
+                                                </li>';
+                                                }
                                                 else                                      
                                             echo'   <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                         </li>';
@@ -56,6 +62,12 @@ class Communication
                            <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
                        </li>';
                                }
+                               elseif($priotity == 2)
+                                                {
+                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled><button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
+                                                    <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockDate('.$row['id'].')">lock</span> 
+                                                </li>';
+                                                }
                                else                                      
                            echo'   <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                        </li>';
@@ -71,7 +83,7 @@ class Communication
 
     public function GetTasksFromPriority($priotity)
     {
-        $result = $this->SendQuery("SELECT id,title,done,delegate_id FROM tasks WHERE type_id = $priotity",true);
+        $result = $this->SendQuery("SELECT id,title,done,delegate_id,task_date FROM tasks WHERE type_id = $priotity",true);
         return $result;
     }
 /*
@@ -129,7 +141,7 @@ class Communication
 */
     public function GetPriorityLevel()
     {
-        $result = $this->SendQuery("SELECT id, name FROM priority_level",true) ; //On fait une requete pour récuperer
+        $result = $this->SendQuery("SELECT id, name FROM priority_level",true) ; 
         return $result;
     }
 
@@ -137,25 +149,22 @@ class Communication
     {
         $result = $this->GetPriorityLevel();
         if ($result) {
-            // Itération sur les résultats
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-              // Affichage des données
               echo "<option value='".$row['id']."'>".$row['name']."</option>";
             }
           } else {
-            // Gestion de l'erreur si la requête échoue
             echo "Erreur lors de l'exécution de la requête.";
           }
     }
 
     public function AddNewTask($priorityLevel, $title)
     {
-        $this->SendQuery("INSERT INTO tasks(title,type_id,done) VALUES ('$title','$priorityLevel',0)",false) ; //On fait une requete pour récuperer
+        $this->SendQuery("INSERT INTO tasks(title,type_id,done) VALUES ('$title','$priorityLevel',0)",false) ; 
     }
    
     public function DelAllTasks()
     {
-        $this->SendQuery("DELETE FROM tasks",false) ; //On fait une requete pour récuperer
+        $this->SendQuery("DELETE FROM tasks",false) ; 
     }
 
     public function TaskDone($id)
@@ -170,24 +179,24 @@ class Communication
 
     public function GetLastId()
     {
-        $lastId = $this->SendQuery("SELECT MAX(id) FROM tasks",true) ; //On fait une requete pour récuperer
+        $lastId = $this->SendQuery("SELECT MAX(id) FROM tasks",true) ; 
         return $lastId->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
     }
 
     public function DelTask($id)
     {
-       $this->SendQuery("DELETE FROM tasks WHERE id = $id", false); //On fait une requete pour récuperer
+       $this->SendQuery("DELETE FROM tasks WHERE id = $id", false); 
     }
 
     public function GetCollaborators()
     {
-        $collaborators =  $this->SendQuery("SELECT id,name FROM collaborators",true); //On fait une requete pour récuperer
+        $collaborators =  $this->SendQuery("SELECT id,name FROM collaborators",true); 
         return $collaborators;
     }
 
     public function AddCollaborator($name)
     {
-        $this->SendQuery("INSERT INTO collaborators(name) VALUES ('$name')",false); //On fait une requete pour récuperer
+        $this->SendQuery("INSERT INTO collaborators(name) VALUES ('$name')",false); 
     }
 
     public function SendQuery($query, $return)
@@ -218,6 +227,11 @@ class Communication
         $lastid = $this->SendQuery("SELECT MAX(id) FROM collaborators",true);
         return $lastid->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
 
+    }
+
+    public function ChangeTaskDate($date,$id)
+    {
+        $this->SendQuery("UPDATE tasks SET task_date = '$date' WHERE id = $id;",false);
     }
 }
 

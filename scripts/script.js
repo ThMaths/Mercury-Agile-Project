@@ -1,3 +1,5 @@
+document.write('<script src="scripts/requests.js"></script>');
+
 function addTask() {
   var taskInput = document.getElementById("taskInput");
   var taskText = taskInput.value.trim();
@@ -106,6 +108,30 @@ function CreateLineInTaskList(taskList,liId,taskInput,taskText,prioritySelect)
       taskInput.value = "";
     });
     }
+    else if(prioritySelect.value == 2)
+      {
+         var date = document.createElement("input")
+         date.type = "date"
+         date.id = "date"+liId
+         date.disabled = false
+         date.addEventListener("change",function(){
+          SendTaskDateRequest(this, liId)
+         })
+
+         var lock = document.createElement("span")
+      lock.id = "lock"+liId
+      lock.classList.add("material-symbols-outlined")
+      lock.textContent = "lock_open"
+      lock.addEventListener("click",function(){
+        LockUnlockDate(liId)
+      })
+                
+      li.appendChild(date);
+      li.appendChild(button)
+      li.appendChild(lock)
+      taskList.appendChild(li);
+      taskInput.value = "";
+      }
     else{
           li.appendChild(button)
           taskList.appendChild(li);
@@ -114,51 +140,7 @@ function CreateLineInTaskList(taskList,liId,taskInput,taskText,prioritySelect)
     }
 }
 
-function SendMaxIdRequest(callback)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var idMax = xhr.responseText; 
-      callback(idMax);
-    }};
 
-  var url = "requests/maxIdRequest.php";
-  xhr.open("GET", url, true);
-  xhr.send();
-}
-
-function SendAddRequest(priority,title,callback)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var response = xhr.responseText; 
-      callback(response);
-    }};
-
-  // Ajout des paramètres à l'URL de la requête
-  var formData = new FormData();
-  formData.append('priorityLevel', priority);
-  formData.append('title', title);
-
-  var url = "requests/addRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send(formData);
-}
-
-function SendDelRequest()
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function() {
-          // Traitement de la réponse
-          console.log(this.responseText);
-      }
-
-  var url = "requests/delRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send();
-}
 
 function addTask2() {
   var taskInput = document.getElementById("taskInput");
@@ -236,19 +218,7 @@ function promptForName() {
   }
 }
 
-function SendGetCollaboratorLastIdRequest(callback)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var id = xhr.responseText;
-        callback(id)
-    }};
 
-  var url = "requests/getCollaboratorLastIdRequest.php";
-  xhr.open("GET", url, true);
-  xhr.send();
-}
 
 function addDelegateToList(name, id) {
   var delegateList = document.getElementById('collaboratorsList');
@@ -268,7 +238,7 @@ function addDelegateToList(name, id) {
   })
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() { // A Supprimer :  Placer l'event directement dans l'attribut onchange de l'input
     var checkboxes = document.querySelectorAll("input[name='checkboxTask']");
 
     checkboxes.forEach(function(checkbox) {
@@ -288,6 +258,15 @@ function LockUnlockSelect(id)
   lock.textContent =  select.disabled ? "lock" : "lock_open"
 }
 
+function LockUnlockDate(id)
+{
+  console.log(id)
+  var dateInput = document.getElementById("date"+id)
+  var lock = document.getElementById("lock"+id)
+  dateInput.disabled = !dateInput.disabled
+  lock.textContent =  dateInput.disabled ? "lock" : "lock_open"
+}
+
 function CheckboxChange()
 {
   var name = "task"+this.id
@@ -298,7 +277,6 @@ function CheckboxChange()
         console.log('Checkbox avec la valeur ' + this.value + ' est cochée');
         SendTaskDoneRequest(this.id)
         task.style.textDecoration = "line-through";
-        // Effectuez des actions supplémentaires si nécessaire
     } else {
         console.log('Checkbox avec la valeur ' + this.value + ' est décochée');
         SendTaskNotDoneRequest(this.id)
@@ -306,98 +284,3 @@ function CheckboxChange()
     }
 }
 
-function SendTaskDoneRequest(id)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.responseText);
-    }};
-      
-  var formData = new FormData();
-  formData.append('id', id);
-
-  var url = "requests/taskDoneRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send(formData);
-}
-
-function SendTaskNotDoneRequest(id)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.responseText);
-    }};
-
-  var formData = new FormData();
-  formData.append('id', id);
-
-  var url = "requests/taskNotDoneRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send(formData);
-}
-
-function SendDelTaskRequest(id)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.responseText);
-    }};
-
-  var formData = new FormData();
-  formData.append('id', id);
-
-  var url = "requests/delTaskRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send(formData);
-}
-
-function SendAddCollaboratorRequest(name)
-{
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.responseText);
-    }};
-
-  var formData = new FormData();
-  formData.append('name', name);
-
-  var url = "requests/addCollaboratorRequest.php";
-  xhr.open("POST", url, true);
-  xhr.send(formData);
-}
-
-function SendGetCollaboratorRequest(callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-          var data = JSON.parse(xhr.responseText);
-          console.log(data);
-          callback(data);
-      }
-  };
-  xhr.open("GET", "requests/getCollaboratorsRequest.php", true);
-  xhr.send();
-}
-
-function SendDelegateTaskRequest(collaborator,task)
-{
-  console.log(collaborator.value + " " + task)
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-          var data = xhr.responseText;
-          console.log(data);
-      }
-  };
-
-  var formData = new FormData();
-  formData.append('collaborator', collaborator.value);
-  formData.append('id',task)
-
-  xhr.open("POST", "requests/setCollaboratorRequest.php", true);
-  xhr.send(formData);
-}

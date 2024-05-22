@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-  require_once("ClassConnexion.php");
-  $con = new Connexion("mysql:host=localhost;dbname=mercury_db","root","root");
+  require_once("classes/classCommunication.php");
+  $com = new Communication;
+  
 ?>
 <head>
   <meta charset="UTF-8">
@@ -10,6 +11,7 @@
   <title>Gestion de tâches</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
   <style>
     .body{
       padding-bottom: 10%;
@@ -24,6 +26,8 @@
     .task-card {
       border: 2px solid #000; /* Bordure noire pour tous les blocs */
       border-radius: 10px; /* Coins arrondis */
+      box-shadow:  10px 10px 20px #d0d0d0,
+             -10px -10px 20px #ffffff;
     }
     .bg-important-urgent {
       border-color: #dc3545; /* Rouge */
@@ -42,6 +46,36 @@
     .left-buttons button {
       opacity: 0.8;
     }
+
+    .list-group-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .list-group-item > * {
+    margin-right: 10px; /* Ajoute un espace à droite de chaque élément enfant direct */
+    }
+
+    .card-title {
+      text-align: center;
+    }
+
+    #task{
+      border-radius: 10px;
+      background: #f5f5f5;
+      box-shadow:  10px 10px 20px #7b7b7b,
+             -10px -10px 20px #ffffff;
+      padding-bottom: 15px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    #taskInput{
+      border-color: black;
+    }
+    #prioritySelect{
+      border-color: black;
+    }
   </style>
 </head>
 <body>
@@ -49,78 +83,92 @@
     <h1 class="mt-5 mb-4 text-center">Gestion de tâches</h1>
     <div class="row">
       <!-- Colonne de gauche avec les boutons "Supprimer tout" et "Déléguer" -->
+      
       <div class="col-md-2 left-buttons">
         <div class="text-center mb-3">
+        <br>
           <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tout</button>
         </div>
         <div class="text-center">
           <button class="btn btn-success" onclick="promptForName()">Déléguer</button>
         </div>
+        <div style="text-align: center;">
+            <table id="collaboratorsList" style="margin: 0 auto;">
+              <th> Collaborateurs</th>
+              <?php $com->DisplayCollaborators() ?>
+            </table>
+        </div>
       </div>
       <!-- Colonne de droite avec la liste des tâches -->
-      <div class="col-md-8">
+      <div class="col-md-10" id="task">
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
+          </div>
+          <div class="col-md-4">
+            <select id="prioritySelect" class="form-select">
+            <?php
+                $com->DisplayPriorityLevel();
+              ?>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button onclick="addTask()" class="btn btn-primary">Ajouter</button>
+          </div>
+        </div>
+        <br>
         <div class="row">
-          <div class="col-md-6" onclick="ImportantAndUrgent()">
+          <div class="col-md-6" >
             <div class="card fixed-height bg-important-urgent task-card">
               <div class="card-body">
-                <h2 class="card-title">Important et Urgent</h2>
-                <ul id="importantUrgentTasks" class="list-group"></ul>
+                <h2 class="card-title" onclick="ImportantAndUrgent()">Important et Urgent</h2>
+                <ul id="importantUrgentTasks" class="list-group list-group-flush">
+                <?php
+                  $com->DisplayTasksFromPriority(1);
+                ?>
+                </ul>
               </div>
             </div>
           </div>
-          <div class="col-md-6" onclick="ImportantNotUrgent()">
+          <div class="col-md-6" >
             <div class="card fixed-height bg-important-not-urgent task-card">
               <div class="card-body">
-                <h2 class="card-title">Important mais Pas Urgent</h2>
-                <ul id="importantNotUrgentTasks" class="list-group"></ul>
+                <h2 class="card-title" onclick="ImportantNotUrgent()">Important mais Pas Urgent</h2>
+                <ul id="importantNotUrgentTasks" class="list-group list-group-flush">
+                <?php
+                  $com->DisplayTasksFromPriority(2)
+                ?>
+                </ul>
               </div>
             </div>
           </div>
         </div>
         <div class="row mt-4">
-          <div class="col-md-6" onclick="NotImportantButUrgent()">
+          <div class="col-md-6" >
             <div class="card fixed-height bg-not-important-urgent task-card">
               <div class="card-body">
-                <h2 class="card-title">Pas Important mais Urgent</h2>
-                <ul id="notImportantUrgentTasks" class="list-group"></ul>
+                <h2 class="card-title" onclick="NotImportantButUrgent()">Pas Important mais Urgent</h2>
+                <ul id="notImportantUrgentTasks" class="list-group list-group-flush">
+                <?php
+                  $com->DisplayTasksFromPriority(3)
+                ?>
+                </ul>
               </div>
             </div>
           </div>
-          <div class="col-md-6" onclick="NotImportantNotUrgent()">
+          <div class="col-md-6" >
             <div class="card fixed-height bg-not-important-not-urgent task-card">
               <div class="card-body">
-                <h2 class="card-title">Pas Important et Pas Urgent</h2>
-                <ul id="notImportantNotUrgentTasks" class="list-group"></ul>
+                <h2 class="card-title" onclick="NotImportantNotUrgent()">Pas Important et Pas Urgent</h2>
+                <ul id="notImportantNotUrgentTasks" class="list-group list-group-flush">
+                <?php
+                  $com->DisplayTasksFromPriority(4)
+                ?>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
-      </div>
-      <div class="col-md-4">
-        <select id="prioritySelect" class="form-select">
-        <?php
-          $query = "SELECT id, name FROM priority_level" ; //On fait une requete pour récuperer
-          $ligne = $con->GetPdo()->query($query) ;
-          if ($ligne) {
-            // Itération sur les résultats
-            while ($row = $ligne->fetch(PDO::FETCH_ASSOC)) {
-              // Affichage des données
-              echo "<option value='".$row['id']."'>".$row['name']."</option>";
-            }
-          } else {
-            // Gestion de l'erreur si la requête échoue
-            echo "Erreur lors de l'exécution de la requête.";
-          }
-          ?>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <button onclick="addTask()" class="btn btn-primary">Ajouter</button>
       </div>
     </div>
   </div>
@@ -129,6 +177,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"></script>
   <!-- JavaScript file -->
-  <script src="script.js"></script>
+  <script src="scripts/script.js"></script>
 </body>
 </html>

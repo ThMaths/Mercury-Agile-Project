@@ -10,23 +10,28 @@ function addTask() {
     if (priority === "") {
       alert("Erreur : Veullez sélectionner une priorité.");
     } else {
-      SendAddRequest(priority,taskText,function(response){
-        if(response !=""){alert(response);return;}
-        else{
-          var taskList = GetTaskList(priority)   
-          SendMaxIdRequest(function(liId)
-        {
-          if(/[a-zA-Z]/.test(liId)){alert("La tâche ne peux pas être affichée. Veuillez recharger la page pour l'afficher. Cause : ".liId);return;}
-          else CreateLineInTaskList(taskList,liId,taskInput,taskText,prioritySelect);
-        });
-        }       
-      })
+      SendAddRequest(priority, taskText, function (response) {
+        if (response != "") {
+          alert(response);
+          return;
+        } else {
+          var taskList = GetTaskList(priority);
+          SendMaxIdRequest(function (liId) {
+            if (/[a-zA-Z]/.test(liId)) {
+              alert(
+                "La tâche ne peux pas être affichée. Veuillez recharger la page pour l'afficher. Cause : "
+                  .liId
+              );
+              return;
+            } else CreateLineInTaskList(taskList, liId, taskInput, taskText, prioritySelect);
+          });
+        }
+      });
     }
   }
 }
 
-function GetTaskList(priority)
-{
+function GetTaskList(priority) {
   var taskList = document.getElementById("notImportantNotUrgentTasks"); // Par défaut
   if (priority === "1") {
     taskList = document.getElementById("importantUrgentTasks");
@@ -38,141 +43,135 @@ function GetTaskList(priority)
   return taskList;
 }
 
-function CreateLineInTaskList(taskList,liId,taskInput,taskText,prioritySelect)
-{
+function CreateLineInTaskList(
+  taskList,
+  liId,
+  taskInput,
+  taskText,
+  prioritySelect
+) {
   var li = document.createElement("li");
-  li.id = "task"+liId;
-  li.classList.add("list-group-item")
+  li.id = "task" + liId;
+  li.classList.add("list-group-item");
 
-  var box = document.createElement("input")
-  box.setAttribute("type","checkbox");
+  var box = document.createElement("input");
+  box.setAttribute("type", "checkbox");
   box.name = "checkboxTask";
   box.id = liId;
-  box.addEventListener('change', function() {
-
+  box.addEventListener("change", function () {
     CheckboxChange.call(this);
   });
 
-
   var button = document.createElement("button");
-    button.textContent = "X";
-    button.classList.add("btn", "btn-primary", "btn-sm")
-    button.onclick = function() {
+  button.textContent = "X";
+  button.classList.add("btn", "btn-primary", "btn-sm");
+  button.onclick = function () {
     deleteTask(liId);
-    };
+  };
 
   li.appendChild(box);
-  li.appendChild(document.createTextNode("  "+taskText+" "));
+  li.appendChild(document.createTextNode("  " + taskText + " "));
 
-  var space = document.createElement("span")
-  space.innerHTML = "&nbsp;&nbsp;&nbsp"
-  li.append(space)
+  var space = document.createElement("span");
+  space.innerHTML = "&nbsp;&nbsp;&nbsp";
+  li.append(space);
 
-  if(prioritySelect.value == 3)
-    {
-      SendGetCollaboratorRequest(function(collaborators)
-    {
+  if (prioritySelect.value == 3) {
+    SendGetCollaboratorRequest(function (collaborators) {
       var selectElement = document.createElement("select");
-      selectElement.id = "choix"+liId;
+      selectElement.id = "choix" + liId;
       selectElement.disabled = false;
-      selectElement.name = "choix"
+      selectElement.name = "choix";
       var aucun = document.createElement("option");
       aucun.text = "Aucun";
       selectElement.add(aucun);
 
-      collaborators.forEach(function (collaborator){
-
+      collaborators.forEach(function (collaborator) {
         var option = document.createElement("option");
         option.text = collaborator.name;
         option.value = collaborator.id;
         selectElement.add(option);
+      });
 
-      })
+      selectElement.addEventListener("change", function () {
+        SendDelegateTaskRequest(selectElement, liId);
+      });
 
-      selectElement.addEventListener('change',function(){
-        SendDelegateTaskRequest(selectElement,liId)
-      })
+      var lock = document.createElement("span");
+      lock.id = "lock" + liId;
+      lock.classList.add("material-symbols-outlined");
+      lock.textContent = "lock_open";
+      lock.addEventListener("click", function () {
+        LockUnlockSelect(liId);
+      });
 
-      var lock = document.createElement("span")
-      lock.id = "lock"+liId
-      lock.classList.add("material-symbols-outlined")
-      lock.textContent = "lock_open"
-      lock.addEventListener("click",function(){
-        LockUnlockSelect(liId)
-      })
-                
       li.appendChild(selectElement);
-      li.appendChild(button)
-      li.appendChild(lock)
+      li.appendChild(button);
+      li.appendChild(lock);
       taskList.appendChild(li);
       taskInput.value = "";
     });
-    }
-    else if(prioritySelect.value == 2)
-      {
-         var date = document.createElement("input")
-         date.type = "date"
-         date.id = "date"+liId
-         date.disabled = false
-         date.addEventListener("change",function(){
-          SendTaskDateRequest(this, liId)
-         })
+  } else if (prioritySelect.value == 2) {
+    var date = document.createElement("input");
+    date.type = "date";
+    date.id = "date" + liId;
+    date.disabled = false;
+    date.addEventListener("change", function () {
+      SendTaskDateRequest(this, liId);
+    });
 
-         var lock = document.createElement("span")
-      lock.id = "lock"+liId
-      lock.classList.add("material-symbols-outlined")
-      lock.textContent = "lock_open"
-      lock.addEventListener("click",function(){
-        LockUnlockDate(liId)
-      })
-                
-      li.appendChild(date);
-      li.appendChild(button)
-      li.appendChild(lock)
-      taskList.appendChild(li);
-      taskInput.value = "";
-      }
-    else{
-          li.appendChild(button)
-          taskList.appendChild(li);
-          taskInput.value = "";
-  //prioritySelect.value = "";
-    }
+    var lock = document.createElement("span");
+    lock.id = "lock" + liId;
+    lock.classList.add("material-symbols-outlined");
+    lock.textContent = "lock_open";
+    lock.addEventListener("click", function () {
+      LockUnlockDate(liId);
+    });
+
+    li.appendChild(date);
+    li.appendChild(button);
+    li.appendChild(lock);
+    taskList.appendChild(li);
+    taskInput.value = "";
+  } else {
+    li.appendChild(button);
+    taskList.appendChild(li);
+    taskInput.value = "";
+    //prioritySelect.value = "";
+  }
 }
-
-
 
 function addTask2() {
   var taskInput = document.getElementById("taskInput");
   var taskText = taskInput.value.trim();
 
   if (taskText !== "") {
-      taskList1 = document.getElementById("importantUrgentTasks");
-      taskList2 = document.getElementById("notImportantNotUrgentTasks");
-      taskList3 = document.getElementById("importantNotUrgentTasks");
-      taskList4 = document.getElementById("notImportantUrgentTasks");
+    taskList1 = document.getElementById("importantUrgentTasks");
+    taskList2 = document.getElementById("notImportantNotUrgentTasks");
+    taskList3 = document.getElementById("importantNotUrgentTasks");
+    taskList4 = document.getElementById("notImportantUrgentTasks");
 
-      allTaskLists = [taskList1, taskList2, taskList3, taskList4];
-      
-      var taskList = null;
-      for (var i=0; i<=allTaskLists.length; i++) {
-        if(taskList == null) {
-          taskList = allTaskLists[i];
-        }
+    allTaskLists = [taskList1, taskList2, taskList3, taskList4];
+
+    var taskList = null;
+    for (var i = 0; i <= allTaskLists.length; i++) {
+      if (taskList == null) {
+        taskList = allTaskLists[i];
       }
+    }
 
-      var newCheckBox = document.createElement('input');
-      newCheckBox.type = 'checkbox';
+    var newCheckBox = document.createElement("input");
+    newCheckBox.type = "checkbox";
 
-      var label = document.createElement("label");
-      label.textContent = taskText;
+    var label = document.createElement("label");
+    label.textContent = taskText;
 
-      var div = document.createElement("div");
-      div.appendChild(newCheckBox);
-      div.appendChild(label);
-      taskList.appendChild(div);
+    var div = document.createElement("div");
+    div.appendChild(newCheckBox);
+    div.appendChild(label);
+    taskList.appendChild(div);
 
-      taskInput.value = "";
+    taskInput.value = "";
   }
 }
 
@@ -193,94 +192,93 @@ function NotImportantNotUrgent() {
 }
 
 function deleteAllTasks() {
-  document.getElementById('importantUrgentTasks').innerHTML = '';
-  document.getElementById('importantNotUrgentTasks').innerHTML = '';
-  document.getElementById('notImportantUrgentTasks').innerHTML = '';
-  document.getElementById('notImportantNotUrgentTasks').innerHTML = '';
+  document.getElementById("importantUrgentTasks").innerHTML =
+    'style="text-decoration: line-through';
+  document.getElementById("importantNotUrgentTasks").innerHTML =
+    'style="text-decoration: line-through';
+  document.getElementById("notImportantUrgentTasks").innerHTML =
+    'style="text-decoration: line-through';
+  document.getElementById("notImportantNotUrgentTasks").innerHTML =
+    'style="text-decoration: line-through';
   SendDelRequest();
 }
 
-function deleteTask(id)
-{
-  var name = "task"+id
-  var task = document.getElementById(name)
-  task.remove()
-  SendDelTaskRequest(id)
+function deleteTask(id) {
+  var name = "task" + id;
+  var task = document.getElementById(name);
+  task.remove();
+  SendDelTaskRequest(id);
 }
 
 function promptForName() {
-  var name = prompt("Entrez le nom de la personne à qui vous souhaitez déléguer la tâche :");
+  var name = prompt(
+    "Entrez le nom de la personne à qui vous souhaitez déléguer la tâche :"
+  );
   if (name !== null && name !== "") {
     SendAddCollaboratorRequest(name);
-    SendGetCollaboratorLastIdRequest(function(id){
-      addDelegateToList(name,id);
-    })
+    SendGetCollaboratorLastIdRequest(function (id) {
+      addDelegateToList(name, id);
+    });
   }
 }
 
-
-
 function addDelegateToList(name, id) {
-  var delegateList = document.getElementById('collaboratorsList');
-  var newTr = document.createElement('tr');
-  var newTd = document.createElement('td');
+  var delegateList = document.getElementById("collaboratorsList");
+  var newTr = document.createElement("tr");
+  var newTd = document.createElement("td");
   newTd.textContent = name;
-  newTr.appendChild(newTd)
+  newTr.appendChild(newTd);
   delegateList.appendChild(newTr);
 
-  var optionCollaborator = document.createElement("option")
-  optionCollaborator.value = id
-  optionCollaborator.textContent = name
+  var optionCollaborator = document.createElement("option");
+  optionCollaborator.value = id;
+  optionCollaborator.textContent = name;
 
-  var selects = document.getElementsByName("choix")
-  selects.forEach(function(select){
-    select.appendChild(optionCollaborator)
-  })
+  var selects = document.getElementsByName("choix");
+  selects.forEach(function (select) {
+    select.appendChild(optionCollaborator);
+  });
 }
 
-document.addEventListener("DOMContentLoaded", function() { // A Supprimer :  Placer l'event directement dans l'attribut onchange de l'input
-    var checkboxes = document.querySelectorAll("input[name='checkboxTask']");
+document.addEventListener("DOMContentLoaded", function () {
+  // A Supprimer :  Placer l'event directement dans l'attribut onchange de l'input
+  var checkboxes = document.querySelectorAll("input[name='checkboxTask']");
 
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-
-          CheckboxChange.call(this);
-        });
+  checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", function () {
+      CheckboxChange.call(this);
     });
+  });
 });
 
-function LockUnlockSelect(id)
-{
-  console.log(id)
-  var select = document.getElementById("choix"+id)
-  var lock = document.getElementById("lock"+id)
-  select.disabled = !select.disabled
-  lock.textContent =  select.disabled ? "lock" : "lock_open"
+function LockUnlockSelect(id) {
+  console.log(id);
+  var select = document.getElementById("choix" + id);
+  var lock = document.getElementById("lock" + id);
+  select.disabled = !select.disabled;
+  lock.textContent = select.disabled ? "lock" : "lock_open";
 }
 
-function LockUnlockDate(id)
-{
-  console.log(id)
-  var dateInput = document.getElementById("date"+id)
-  var lock = document.getElementById("lock"+id)
-  dateInput.disabled = !dateInput.disabled
-  lock.textContent =  dateInput.disabled ? "lock" : "lock_open"
+function LockUnlockDate(id) {
+  console.log(id);
+  var dateInput = document.getElementById("date" + id);
+  var lock = document.getElementById("lock" + id);
+  dateInput.disabled = !dateInput.disabled;
+  lock.textContent = dateInput.disabled ? "lock" : "lock_open";
 }
 
-function CheckboxChange()
-{
-  var name = "task"+this.id
+function CheckboxChange() {
+  var name = "task" + this.id;
   console.log(name);
-  var task = document.getElementById(name)
+  var task = document.getElementById(name);
 
-    if (this.checked) {
-        console.log('Checkbox avec la valeur ' + this.value + ' est cochée');
-        SendTaskDoneRequest(this.id)
-        task.style.textDecoration = "line-through";
-    } else {
-        console.log('Checkbox avec la valeur ' + this.value + ' est décochée');
-        SendTaskNotDoneRequest(this.id)
-        task.style.textDecoration = "";
-    }
+  if (this.checked) {
+    console.log("Checkbox avec la valeur " + this.value + " est cochée");
+    SendTaskDoneRequest(this.id);
+    task.style.textDecoration = "line-through";
+  } else {
+    console.log("Checkbox avec la valeur " + this.value + " est décochée");
+    SendTaskNotDoneRequest(this.id);
+    task.style.textDecoration = "";
+  }
 }
-

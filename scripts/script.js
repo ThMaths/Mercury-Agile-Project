@@ -220,6 +220,8 @@ function promptForName() {
     "Entrez le nom de la personne à qui vous souhaitez déléguer la tâche :"
   );
   if (name !== null && name !== "") {
+    const element = document.getElementById("collaboratorsList");
+    console.log(element);
     SendAddCollaboratorRequest(name);
     SendGetCollaboratorLastIdRequest(function (id) {
       addDelegateToList(name, id);

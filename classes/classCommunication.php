@@ -164,7 +164,7 @@ class Communication
    
     public function DelAllTasks()
     {
-        $this->SendQuery("DELETE FROM tasks WHERE done = 1",false) ; 
+        $this->SendQuery("DELETE FROM tasks WHERE done = 0",false) ; 
     }
 
     public function TaskDone($id)

@@ -183,7 +183,7 @@
       <div class="col-md-2 left-buttons">
         <div class="text-center mb-3">
         <br>
-          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tout</button>
+          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tâche terminée</button>
         </div>
         <div class="text-center">
           <button class="btn btn-success" onclick="promptForName()">Déléguer</button>

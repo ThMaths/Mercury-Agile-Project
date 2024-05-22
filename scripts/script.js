@@ -222,10 +222,29 @@ function promptForName() {
   if (name !== null && name !== "") {
     const element = document.getElementById("collaboratorsList");
     console.log(element);
-    for (const child of element) {
-      console.log(child);
-      if (child) {
-      }
+    for (const body of element.children) {
+      if(body.tagName == "TR")
+        {
+          for(const td of body.children)
+            {
+              if(name.toLowerCase() == td.textContent.toLowerCase())
+                {
+                  alert("Ce nom existe déjà")
+                  return;
+                }
+            }
+        }
+        else {
+          for(const tr of body.children)
+            for(const td of tr.children)
+          {
+            if(name.toLowerCase() == td.textContent.toLowerCase())
+              {
+                alert("Ce nom existe déjà")
+                return;
+              }
+          }
+        }
     }
     SendAddCollaboratorRequest(name);
     SendGetCollaboratorLastIdRequest(function (id) {

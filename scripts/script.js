@@ -193,14 +193,17 @@ function NotImportantNotUrgent() {
 
 function deleteAllTasks() {
   const element1 = document.getElementById("importantUrgentTasks");
-  const element2 = document.getElementById("importantUrgentTasks");
-  const element3 = document.getElementById("importantUrgentTasks");
-  const element4 = document.getElementById("importantUrgentTasks");
+  const element2 = document.getElementById("importantNotUrgentTasks");
+  const element3 = document.getElementById("notImportantUrgentTasks");
+  const element4 = document.getElementById("notImportantNotUrgentTasks");
   const tab = [];
   tab.push(element1, element2, element3, element4);
   for (const element of tab) {
+    console.log(element)
     for (const child of element.children) {
-      if (child.style("text-decoration") == "line-through") {
+      console.log(child)
+      if (child.style.getPropertyValue("text-decoration") == "line-through") {
+        console.log(child)
         child.remove();
       }
     }

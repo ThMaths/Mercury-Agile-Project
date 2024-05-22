@@ -192,14 +192,24 @@ function NotImportantNotUrgent() {
 }
 
 function deleteAllTasks() {
-  document.getElementById("importantUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("importantNotUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("notImportantUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("notImportantNotUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
+  const element1 = document.getElementById("importantUrgentTasks");
+  const element2 = document.getElementById("importantUrgentTasks");
+  const element3 = document.getElementById("importantUrgentTasks");
+  const element4 = document.getElementById("importantUrgentTasks");
+  const tab = [];
+  tab.push(element1, element2, element3, element4);
+  for (const element of tab) {
+    for (const child of element.children) {
+      if (child.style("text-decoration") == "line-through") {
+        child.remove();
+      }
+    }
+  }
+
+  // document.getElementById("importantUrgentTasks").innerHTML = "";
+  // document.getElementById("importantNotUrgentTasks").innerHTML = "";
+  // document.getElementById("notImportantUrgentTasks").innerHTML = "";
+  // document.getElementById("notImportantNotUrgentTasks").innerHTML = "";
   SendDelRequest();
 }
 

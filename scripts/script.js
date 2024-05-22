@@ -199,20 +199,12 @@ function deleteAllTasks() {
   const tab = [];
   tab.push(element1, element2, element3, element4);
   for (const element of tab) {
-    console.log(element)
     for (const child of element.children) {
-      console.log(child)
       if (child.style.getPropertyValue("text-decoration") == "line-through") {
-        console.log(child)
         child.remove();
       }
     }
   }
-
-  // document.getElementById("importantUrgentTasks").innerHTML = "";
-  // document.getElementById("importantNotUrgentTasks").innerHTML = "";
-  // document.getElementById("notImportantUrgentTasks").innerHTML = "";
-  // document.getElementById("notImportantNotUrgentTasks").innerHTML = "";
   SendDelRequest();
 }
 

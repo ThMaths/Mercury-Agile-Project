@@ -26,6 +26,8 @@
     .task-card {
       border: 2px solid #000; /* Bordure noire pour tous les blocs */
       border-radius: 10px; /* Coins arrondis */
+      box-shadow:  10px 10px 20px #d0d0d0,
+             -10px -10px 20px #ffffff;
     }
     .bg-important-urgent {
       border-color: #dc3545; /* Rouge */
@@ -58,6 +60,22 @@
       text-align: center;
     }
 
+    #task{
+      border-radius: 10px;
+      background: #f5f5f5;
+      box-shadow:  10px 10px 20px #7b7b7b,
+             -10px -10px 20px #ffffff;
+      padding-bottom: 15px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    #taskInput{
+      border-color: black;
+    }
+    #prioritySelect{
+      border-color: black;
+    }
   </style>
 </head>
 <body>
@@ -82,8 +100,8 @@
         </div>
       </div>
       <!-- Colonne de droite avec la liste des tâches -->
-      <div class="col-md-10">
-        <div class="row mt-4">
+      <div class="col-md-10" id="task">
+        <div class="row mt-3">
           <div class="col-md-6">
             <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
           </div>

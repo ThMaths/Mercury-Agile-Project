@@ -222,6 +222,11 @@ function promptForName() {
   if (name !== null && name !== "") {
     const element = document.getElementById("collaboratorsList");
     console.log(element);
+    for (const child of element) {
+      console.log(child);
+      if (child) {
+      }
+    }
     SendAddCollaboratorRequest(name);
     SendGetCollaboratorLastIdRequest(function (id) {
       addDelegateToList(name, id);

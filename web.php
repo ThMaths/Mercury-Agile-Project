@@ -27,7 +27,7 @@
           <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tâche terminée</button>
         </div>
         <div class="text-center">
-          <button class="btn btn-success" onclick="promptForName()">Déléguer</button>
+          <button class="btn btn-success" onclick="promptForName()">Ajouter des délégués</button>
         </div>
         <div style="text-align: center;">
             <table id="collaboratorsList" style="margin: 0 auto;">

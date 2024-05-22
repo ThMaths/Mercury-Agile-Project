@@ -65,8 +65,10 @@
     <h1 class="mt-5 mb-4 text-center">Gestion de tâches</h1>
     <div class="row">
       <!-- Colonne de gauche avec les boutons "Supprimer tout" et "Déléguer" -->
+      
       <div class="col-md-2 left-buttons">
         <div class="text-center mb-3">
+        <br>
           <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tout</button>
         </div>
         <div class="text-center">
@@ -81,6 +83,22 @@
       </div>
       <!-- Colonne de droite avec la liste des tâches -->
       <div class="col-md-10">
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
+          </div>
+          <div class="col-md-4">
+            <select id="prioritySelect" class="form-select">
+            <?php
+                $com->DisplayPriorityLevel();
+              ?>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button onclick="addTask()" class="btn btn-primary">Ajouter</button>
+          </div>
+        </div>
+        <br>
         <div class="row">
           <div class="col-md-6" >
             <div class="card fixed-height bg-important-urgent task-card">
@@ -133,21 +151,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
-      </div>
-      <div class="col-md-4">
-        <select id="prioritySelect" class="form-select">
-        <?php
-            $com->DisplayPriorityLevel();
-          ?>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <button onclick="addTask()" class="btn btn-primary">Ajouter</button>
       </div>
     </div>
   </div>

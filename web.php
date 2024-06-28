@@ -102,7 +102,7 @@
         </div>
         <div class="text-center mb-3">
           <br>
-          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer toutes les tasks</button>
+          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tâches terminées</button>
         </div>
       </div>
     </div>

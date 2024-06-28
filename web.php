@@ -23,7 +23,7 @@
       <div class="col-md-2 left-buttons">
         <br>
         <div class="text-center">
-          <button class="btn btn-success" onclick="promptForName()">Déléguer</button>
+          <button class="btn btn-success" onclick="promptForName()">Ajouter des délégués</button>
         </div>
         <div style="text-align: center;">
           <table id="collaboratorsList" style="margin: 0 auto;">

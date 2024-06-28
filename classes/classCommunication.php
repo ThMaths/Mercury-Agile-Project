@@ -1,6 +1,8 @@
 <?php
 require_once("ClassConnexion.php");
 
+session_start();
+
 class Communication 
 {
     private $con;
@@ -19,6 +21,16 @@ class Communication
                                             <input type=checkbox name=checkboxTask id='.$row['id'].'>   '. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>';
                                             
                                             if($priotity == 3){ 
+
+                                                if($row['delegate_id'] && $row['id_creator']){
+
+                                                    $nameResult = $this->getNameById($row['id_creator']);
+
+                                                    echo '<p> Delegate By '.$nameResult['name'].'</p>';
+                                                }
+
+                                                else{
+
                                                 echo '  <select id="choix'.$row['id'].'" name="choix" onchange="SendDelegateTaskRequest(this,'.$row["id"].')" disabled>
                                                         <option value="0">Aucun</option>';
 
@@ -31,7 +43,8 @@ class Communication
                                                  echo'</select>
                                                  <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                             <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
-                                        </li>';
+                                        </li>';}
+                                            
                                                 }
                                                 elseif($priotity == 2)
                                                 {
@@ -83,7 +96,7 @@ class Communication
 
     public function GetTasksFromPriority($priotity)
     {
-        $result = $this->SendQuery("SELECT id,title,done,delegate_id,task_date FROM tasks WHERE type_id = $priotity",true);
+        $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND id_creator =".$_SESSION['id_user'].";",true);
         return $result;
     }
 /*
@@ -159,7 +172,7 @@ class Communication
 
     public function AddNewTask($priorityLevel, $title)
     {
-        $this->SendQuery("INSERT INTO tasks(title,type_id,done) VALUES ('$title','$priorityLevel',0)",false) ; 
+        $this->SendQuery("INSERT INTO tasks(title,type_id,done,id_creator) VALUES ('$title','$priorityLevel',0, ".$_SESSION['id_user'].")",false) ; 
     }
    
     public function DelAllTasks()
@@ -196,7 +209,8 @@ class Communication
 
     public function AddCollaborator($name)
     {
-        $this->SendQuery("INSERT INTO collaborators(name) VALUES ('$name')",false); 
+        $identifiant = $name."@gmail.com";
+        $this->SendQuery("INSERT INTO collaborators(identifiant,name,password) VALUES ('$identifiant','$name','123')",false); 
     }
 
     public function SendQuery($query, $return)
@@ -232,6 +246,11 @@ class Communication
     public function ChangeTaskDate($date,$id)
     {
         $this->SendQuery("UPDATE tasks SET task_date = '$date' WHERE id = $id;",false);
+    }
+
+    public function getNameById($id){
+        $name = $this->SendQuery("SELECT name FROM collaborators WHERE id = $id;",true);
+        return $name->fetch(PDO::FETCH_ASSOC);
     }
 }
 

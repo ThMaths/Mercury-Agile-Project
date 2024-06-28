@@ -192,14 +192,19 @@ function NotImportantNotUrgent() {
 }
 
 function deleteAllTasks() {
-  document.getElementById("importantUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("importantNotUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("notImportantUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
-  document.getElementById("notImportantNotUrgentTasks").innerHTML =
-    'style="text-decoration: line-through';
+  const element1 = document.getElementById("importantUrgentTasks");
+  const element2 = document.getElementById("importantNotUrgentTasks");
+  const element3 = document.getElementById("notImportantUrgentTasks");
+  const element4 = document.getElementById("notImportantNotUrgentTasks");
+  const tab = [];
+  tab.push(element1, element2, element3, element4);
+  for (const element of tab) {
+    for (const child of element.children) {
+      if (child.style.getPropertyValue("text-decoration") == "line-through") {
+        child.remove();
+      }
+    }
+  }
   SendDelRequest();
 }
 
@@ -215,6 +220,32 @@ function promptForName() {
     "Entrez le nom de la personne à qui vous souhaitez déléguer la tâche :"
   );
   if (name !== null && name !== "") {
+    const element = document.getElementById("collaboratorsList");
+    console.log(element);
+    for (const body of element.children) {
+      if(body.tagName == "TR")
+        {
+          for(const td of body.children)
+            {
+              if(name.toLowerCase() == td.textContent.toLowerCase())
+                {
+                  alert("Ce nom existe déjà")
+                  return;
+                }
+            }
+        }
+        else {
+          for(const tr of body.children)
+            for(const td of tr.children)
+          {
+            if(name.toLowerCase() == td.textContent.toLowerCase())
+              {
+                alert("Ce nom existe déjà")
+                return;
+              }
+          }
+        }
+    }
     SendAddCollaboratorRequest(name);
     SendGetCollaboratorLastIdRequest(function (id) {
       addDelegateToList(name, id);

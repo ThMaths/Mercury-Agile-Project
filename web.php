@@ -10,67 +10,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion de tâches</title>
   <!-- Bootstrap CSS -->
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-  <style>
-    .body{
-      padding-bottom: 10%;
-    }
-    .list-group{
-      margin-left: 10%;
-    }
-    .fixed-height {
-      height: 30vh; /* Hauteur fixe à 40% de la hauteur de la fenêtre */
-      overflow-y: auto; /* Ajout d'une barre de défilement si le contenu dépasse */
-    }
-    .task-card {
-      border: 2px solid #000; /* Bordure noire pour tous les blocs */
-      border-radius: 10px; /* Coins arrondis */
-    }
-    .bg-important-urgent {
-      border-color: #dc3545; /* Rouge */
-    }
-    .bg-important-not-urgent {
-      border-color: #ffc107; /* Jaune */
-    }
-    .bg-not-important-urgent {
-      border-color: #007bff; /* Bleu */
-    }
-    .bg-not-important-not-urgent {
-      border-color: #6c757d; /* Gris */
-    }
-
-    /* Réduire l'opacité des boutons */
-    .left-buttons button {
-      opacity: 0.8;
-    }
-
-    .list-group-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .list-group-item > * {
-    margin-right: 10px; /* Ajoute un espace à droite de chaque élément enfant direct */
-    }
-
-    .card-title {
-      text-align: center;
-    }
-
-  </style>
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <h1 class="mt-5 mb-4 text-center">Gestion de tâches</h1>
     <div class="row">
       <!-- Colonne de gauche avec les boutons "Supprimer tout" et "Déléguer" -->
+      
       <div class="col-md-2 left-buttons">
         <div class="text-center mb-3">
-          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tout</button>
+        <br>
+          <button class="btn btn-danger" onclick="deleteAllTasks()">Supprimer tâche terminée</button>
         </div>
         <div class="text-center">
-          <button class="btn btn-success" onclick="promptForName()">Déléguer</button>
+          <button class="btn btn-success" onclick="promptForName()">Ajouter des délégués</button>
         </div>
         <div style="text-align: center;">
             <table id="collaboratorsList" style="margin: 0 auto;">
@@ -80,7 +37,37 @@
         </div>
       </div>
       <!-- Colonne de droite avec la liste des tâches -->
-      <div class="col-md-10">
+      <div class="col-md-10" id="task">
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
+          </div>
+          <div class="col-md-4">
+            <select id="prioritySelect" class="form-select">
+            <?php
+                $com->DisplayPriorityLevel();
+              ?>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <!--<button onclick="addTask()" class="btn btn-primary">Ajouter</button> -->
+            <button class="animated-button" onclick="addTask()">
+              <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+              </svg>
+              <span class="text">Ajouter</span>
+              <span class="circle"></span>
+              <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <br>
         <div class="row">
           <div class="col-md-6" >
             <div class="card fixed-height bg-important-urgent task-card">
@@ -133,21 +120,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
-      </div>
-      <div class="col-md-4">
-        <select id="prioritySelect" class="form-select">
-        <?php
-            $com->DisplayPriorityLevel();
-          ?>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <button onclick="addTask()" class="btn btn-primary">Ajouter</button>
       </div>
     </div>
   </div>

@@ -256,7 +256,7 @@ class Communication
     }
 
     public function desactivateCollaborator($id){
-        $name = $this->SendQuery("UPDATE collaborators SET desactivate = true WHERE id = $id;",false);
+        $name = $this->SendQuery("UPDATE collaborators SET desactivate = 1 WHERE id = $id;",false);
     }
 }
 ?>

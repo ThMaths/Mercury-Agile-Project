@@ -11,6 +11,11 @@ if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion
 
     if($collaborators->rowCount() >= 1){
         foreach($collaborators as $valeur){
+            if($valeur['desactivate'] == 1){
+                $_SESSION['erreur'] = 'Erreur : Utilisateur désactivé';
+                header("location: ./form.php");
+                exit();
+            }
             if(htmlentities($_POST['connexion_mdp']) == $valeur['password']){
                 $_SESSION['id_user'] = $valeur["id"];
                 $_SESSION['erreur'] = '';

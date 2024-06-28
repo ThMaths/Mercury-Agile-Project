@@ -169,3 +169,18 @@ function SendDelRequest()
   xhr.open("POST", url, true);
   xhr.send();
 }
+
+function desactivateCollaborator(id)
+{
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+          console.log(this.responseText);
+  }
+
+  var formData = new FormData();
+  formData.append('collaborator_id', id);
+
+  var url = "requests/desactivateCollaborator.php";
+  xhr.open("POST", url, true);
+  xhr.send(formData);
+}

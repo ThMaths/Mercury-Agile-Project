@@ -100,59 +100,7 @@ class Communication
         $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND (delegate_id =".$_SESSION['id_user']." OR id_creator =".$_SESSION['id_user'].");",true);
         return $result;
     }
-/*
-    public function GetImportantAndUrgent()
-    {
-        $query = "SELECT id,title,done FROM tasks WHERE type_id = 1" ; //On fait une requete pour récuperer
-        $ligne = $this->con->GetPdo()->query($query) ;
-        if ($ligne) {
-            // Itération sur les résultats
-            $this->DisplayTasks($ligne);
-        } else {
-            // Gestion de l'erreur si la requête échoue
-            echo "Erreur lors de l'exécution de la requête.";
-        }
-    }
 
-    public function GetImportantNotUrgent()
-    {
-        $query = "SELECT id,title,done FROM tasks WHERE type_id = 2" ; 
-        $ligne = $this->con->GetPdo()->query($query) ;
-        if ($ligne) {
-            // Itération sur les résultats
-            $this->DisplayTasks($ligne);
-        } else {
-            // Gestion de l'erreur si la requête échoue
-            echo "Erreur lors de l'exécution de la requête.";
-        }
-    }
-
-    public function GetNotImportantUrgent()
-    {
-        $query = "SELECT id,title,done FROM tasks WHERE type_id = 3" ; 
-        $ligne = $this->con->GetPdo()->query($query) ;
-        if ($ligne) {
-            // Itération sur les résultats
-            $this->DisplayTasks($ligne);
-        } else {
-            // Gestion de l'erreur si la requête échoue
-            echo "Erreur lors de l'exécution de la requête.";
-        }
-    }
-
-    public function GetNotImportantNotUrgent()
-    {
-        $query = "SELECT id,title,done FROM tasks WHERE type_id = 4" ; 
-        $ligne = $this->con->GetPdo()->query($query) ;
-        if ($ligne) {
-            // Itération sur les résultats
-            $this->DisplayTasks($ligne);
-        } else {
-            // Gestion de l'erreur si la requête échoue
-            echo "Erreur lors de l'exécution de la requête.";
-        }
-    }
-*/
     public function GetPriorityLevel()
     {
         $result = $this->SendQuery("SELECT id, name FROM priority_level",true) ; 
@@ -204,7 +152,7 @@ class Communication
 
     public function GetCollaborators()
     {
-        $collaborators =  $this->SendQuery("SELECT id,name FROM collaborators",true); 
+        $collaborators =  $this->SendQuery("SELECT id,name FROM collaborators WHERE desactivate = 0",true); 
         return $collaborators;
     }
 
@@ -228,7 +176,7 @@ class Communication
         $result = $this->GetCollaborators();
         while($row = $result->fetch(PDO::FETCH_ASSOC))
         {
-            echo "<tr> <td>".$row['name']."</td></tr>";
+            echo "<tr> <td>".$row['name']."</td><td><button onclick='desactivateCollaborator(".$row['id'].")'>X</button></td></tr>";
         }
     }
 

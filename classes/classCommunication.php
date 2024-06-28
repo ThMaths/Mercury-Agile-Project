@@ -212,6 +212,7 @@ class Communication
     {
         $identifiant = $name."@gmail.com";
         $this->SendQuery("INSERT INTO collaborators(identifiant,name,password) VALUES ('$identifiant','$name','123')",false); 
+
     }
 
     public function SendQuery($query, $return)
@@ -253,6 +254,9 @@ class Communication
         $name = $this->SendQuery("SELECT name FROM collaborators WHERE id = $id;",true);
         return $name->fetch(PDO::FETCH_ASSOC);
     }
-}
 
+    public function desactivateCollaborator($id){
+        $name = $this->SendQuery("UPDATE collaborators SET desactivate = true WHERE id = $id;",false);
+    }
+}
 ?>

@@ -22,7 +22,7 @@ class Communication
                                             
                                             if($priotity == 3){ 
 
-                                                if($row['delegate_id'] && $row['id_creator']){
+                                                if($row['delegate_id'] == $_SESSION['id_user'] && $row['id_creator']){
 
                                                     $nameResult = $this->getNameById($row['id_creator']);
 
@@ -40,10 +40,11 @@ class Communication
                                                     if($row['delegate_id'] == $col["id"]) echo'<option value='.$col["id"].' selected>'.$col["name"].'</option>';
                                                     else echo'<option value='.$col["id"].'>'.$col["name"].'</option>';
                                                 }
+                                            }
                                                  echo'</select>
                                                  <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                             <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
-                                        </li>';}
+                                        </li>';
                                             
                                                 }
                                                 elseif($priotity == 2)
@@ -96,7 +97,7 @@ class Communication
 
     public function GetTasksFromPriority($priotity)
     {
-        $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND id_creator =".$_SESSION['id_user'].";",true);
+        $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND delegate_id =".$_SESSION['id_user']." OR id_creator =".$_SESSION['id_user'].";",true);
         return $result;
     }
 /*

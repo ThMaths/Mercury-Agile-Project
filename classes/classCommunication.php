@@ -97,7 +97,7 @@ class Communication
 
     public function GetTasksFromPriority($priotity)
     {
-        $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND delegate_id =".$_SESSION['id_user']." OR id_creator =".$_SESSION['id_user'].";",true);
+        $result = $this->SendQuery("SELECT * FROM tasks WHERE type_id = $priotity AND (delegate_id =".$_SESSION['id_user']." OR id_creator =".$_SESSION['id_user'].");",true);
         return $result;
     }
 /*
@@ -228,7 +228,7 @@ class Communication
         $result = $this->GetCollaborators();
         while($row = $result->fetch(PDO::FETCH_ASSOC))
         {
-            echo "<tr> <td>".$row['name']."</td> </tr>";
+            echo "<tr> <td>".$row['name']."</td></tr>";
         }
     }
 

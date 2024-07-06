@@ -18,7 +18,7 @@ class Communication
 
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             if($row['done'] == 0){ echo '<li class="list-group-item" style = "display: flex; align-items: center;"id="task'.$row['id'].'">
-                                            <input type=checkbox name=checkboxTask id='.$row['id'].'>   '. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>';
+                                            <input type=checkbox name=checkboxTask id='.$row['id'].'><span>&nbsp;&nbsp;&nbsp;</span>   '. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>';
                                             
                                             if($priotity == 3){ 
 
@@ -42,6 +42,7 @@ class Communication
                                                 }
                                             }
                                                  echo'</select>
+                                                 <span>&nbsp;&nbsp;&nbsp;</span>
                                                  <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                             <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
                                         </li>';
@@ -49,7 +50,9 @@ class Communication
                                                 }
                                                 elseif($priotity == 2)
                                                 {
-                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled><button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
+                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled>
+                                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                                    <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                                     <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockDate('.$row['id'].')">lock</span> 
                                                 </li>';
                                                 }
@@ -59,7 +62,7 @@ class Communication
                                             }
 
             else {echo '<li class="list-group-item"  id="task'.$row['id'].'" style="text-decoration: line-through ; display: flex; align-items: center;">
-                            <input type=checkbox name=checkboxTask  id='.$row['id'].' checked>'. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>' ;
+                            <input type=checkbox name=checkboxTask  id='.$row['id'].' checked><span>&nbsp;&nbsp;&nbsp;</span>'. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>' ;
                             
                             if($priotity == 3){ 
 
@@ -83,13 +86,16 @@ class Communication
                                 }
                             }
                                 echo'</select>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
                                 <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                            <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
                        </li>';
                                }
                                elseif($priotity == 2)
                                                 {
-                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled><button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
+                                                    echo'<input type=date id ="date'.$row['id'].'" onchange="SendTaskDateRequest(this,'.$row["id"].')" value ="'.$row['task_date'].'" disabled>
+                                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                                    <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                                                     <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockDate('.$row['id'].')">lock</span> 
                                                 </li>';
                                                 }
@@ -188,7 +194,7 @@ class Communication
         $result = $this->GetCollaborators();
         while($row = $result->fetch(PDO::FETCH_ASSOC))
         {
-            echo '<tr id="collaborator'.$row["id"].'"> <td>'.$row["name"].'</td><td><button onclick="DesactivateCollaborator('.$row["id"].')">X</button></td></tr>';
+            echo '<tr id="collaborator'.$row["id"].'"> <td>'.$row["name"].'</td><td><button class="btn btn-danger btn-sm" onclick="DesactivateCollaborator('.$row["id"].')">X</button></td></tr>';
         }
     }
 

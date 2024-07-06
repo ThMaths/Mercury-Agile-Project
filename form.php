@@ -25,7 +25,7 @@
 
             <button type="submit" id="Valider" name="Valider">Se connecter</button><br>
             <?php
-                if($_SESSION['erreur'] != null){
+                if( isset($_SESSION['erreur'])  && $_SESSION['erreur'] != null){
                     echo '<br><div style="color: red;">'.$_SESSION['erreur'].'</div>';
                     $_SESSION['erreur'] = "";
                 }

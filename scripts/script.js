@@ -53,6 +53,8 @@ function CreateLineInTaskList(
   var li = document.createElement("li");
   li.id = "task" + liId;
   li.classList.add("list-group-item");
+  li.style.display = 'flex';
+  li.style.alignItems = 'center';
 
   var box = document.createElement("input");
   box.setAttribute("type", "checkbox");
@@ -264,6 +266,7 @@ function addDelegateToList(name, id) {
 
   var newTdDelete = document.createElement("td");
   var deleteButton = document.createElement("button");
+  deleteButton.classList.add("btn", "btn-danger", "btn-sm")
   deleteButton.textContent = "X";
 
   deleteButton.addEventListener("click", function() {
@@ -337,3 +340,38 @@ function DesactivateCollaborator(id){
   delegateList.removeChild(trToDelete);
 
 }
+
+document.querySelectorAll('.clickable-zone').forEach( zone => {
+  zone.addEventListener('click', function(event) {
+    if (!event.target.closest('input') && !event.target.closest('button') && !event.target.closest('select') && !event.target.closest('span')) {
+        openWindow()
+        priority = zone.id
+        var prioritySelect = document.getElementById("prioritySelect");
+        prioritySelect.value = priority
+    }
+})
+});
+
+function addTaskOverlay(){
+  var taskInput = document.getElementById("taskInput");
+  var taskInputOverlay = document.getElementById("taskInputOverlay");
+  taskInput.value = taskInputOverlay.value
+
+  addTask()
+}
+
+function openWindow() {
+  var overlay = document.getElementById("overlay")
+  overlay.style.display = 'flex'; 
+}
+
+function closeWindow() {
+  var overlay = document.getElementById("overlay")
+  overlay.style.display = 'none'; 
+}
+
+document.getElementById("overlay").addEventListener('click', function(event) {
+  if (event.target === document.getElementById("overlay")) {
+      closeWindow();
+  }
+});

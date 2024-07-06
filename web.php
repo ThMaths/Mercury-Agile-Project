@@ -14,6 +14,17 @@
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
+
+
+<div class="overlay" id="overlay">
+        <div class="window">
+            <h2>Creer une tâche</h2>
+            <input type="text" id="taskInputOverlay" class="form-control" placeholder="Ajouter une tâche...">
+            <button id="create" onclick="addTaskOverlay()">Valider</button>
+            <button id="closeButton" onclick="closeWindow()">Close</button>
+        </div>
+    </div>
+
   <div class="container page-content">
     <div class="title-container" style="display: flex; align-items: center; justify-content: center; margin-top: 20px; margin-bottom: 10px">
       <dotlottie-player src="https://lottie.host/62031d7b-0744-4397-b7d3-7d3f7b0e2f21/8k0qftz8l7.json" background="transparent" style="width: 3em; height: 3em; margin-right: 10px; margin-bottom: 5px" speed="1" loop autoplay></dotlottie-player>
@@ -58,16 +69,19 @@
         <br>
         <div class="row">
           <div class="col-md-6">
+          <div id ="1" class = "clickable-zone">
             <div class="card fixed-height bg-important-urgent task-card">
               <div class="card-body">
-                <h2 class="card-title" onclick="ImportantAndUrgent()">Important et Urgent</h2>
-                <ul id="importantUrgentTasks" class="list-group list-group-flush">
-                  <?php $com->DisplayTasksFromPriority(1); ?>
-                </ul>
+                  <h2 class="card-title" onclick="ImportantAndUrgent()">Important et Urgent</h2>
+                  <ul id="importantUrgentTasks" class="list-group list-group-flush">
+                    <?php $com->DisplayTasksFromPriority(1); ?>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-6">
+          <div id ="2" class = "clickable-zone">
             <div class="card fixed-height bg-important-not-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title" onclick="ImportantNotUrgent()">Important mais Pas Urgent</h2>
@@ -77,9 +91,11 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
         <div class="row mt-4">
           <div class="col-md-6">
+          <div id ="3" class = "clickable-zone">
             <div class="card fixed-height bg-not-important-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title" onclick="NotImportantButUrgent()">Pas Important mais Urgent</h2>
@@ -89,7 +105,9 @@
               </div>
             </div>
           </div>
+          </div>
           <div class="col-md-6">
+          <div id ="4" class = "clickable-zone">
             <div class="card fixed-height bg-not-important-not-urgent task-card">
               <div class="card-body">
                 <h2 class="card-title" onclick="NotImportantNotUrgent()">Pas Important et Pas Urgent</h2>
@@ -98,6 +116,7 @@
                 </ul>
               </div>
             </div>
+          </div>
           </div>
         </div>
         <div class="text-center mb-3">

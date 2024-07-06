@@ -17,16 +17,16 @@ class Communication
         $result = $this->GetTasksFromPriority($priotity);
 
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            if($row['done'] == 0){ echo '<li class="list-group-item" id="task'.$row['id'].'">
+            if($row['done'] == 0){ echo '<li class="list-group-item" style = "display: flex; align-items: center;"id="task'.$row['id'].'">
                                             <input type=checkbox name=checkboxTask id='.$row['id'].'>   '. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>';
                                             
                                             if($priotity == 3){ 
 
-                                                if($row['delegate_id'] == $_SESSION['id_user'] && $row['id_creator']){
+                                                if($row['delegate_id'] == $_SESSION['id_user'] && $row['id_creator'] && $row['id_creator'] != $row['delegate_id']){
 
                                                     $nameResult = $this->getNameById($row['id_creator']);
 
-                                                    echo '<p> Delegate By '.$nameResult['name'].'</p>';
+                                                    echo 'Delegate By '.$nameResult['name'];
                                                 }
 
                                                 else{
@@ -58,10 +58,20 @@ class Communication
                                         </li>';
                                             }
 
-            else {echo '<li class="list-group-item" id="task'.$row['id'].'" style="text-decoration: line-through">
+            else {echo '<li class="list-group-item"  id="task'.$row['id'].'" style="text-decoration: line-through ; display: flex; align-items: center;">
                             <input type=checkbox name=checkboxTask  id='.$row['id'].' checked>'. $row["title"].'<span>&nbsp;&nbsp;&nbsp;</span>' ;
                             
                             if($priotity == 3){ 
+
+                                if($row['delegate_id'] == $_SESSION['id_user'] && $row['id_creator'] && $row['id_creator'] != $row['delegate_id']){
+
+                                    $nameResult = $this->getNameById($row['id_creator']);
+
+                                    echo 'Delegate By '.$nameResult['name'];
+                                }
+
+                                else{
+
                                 echo '  <select id="choix'.$row['id'].'" name="choix" onchange="SendDelegateTaskRequest(this,'.$row["id"].')" disabled>
                                         <option value="0">Aucun</option>';
 
@@ -71,6 +81,7 @@ class Communication
                                     if($row['delegate_id'] == $col["id"]) echo'<option value='.$col["id"].' selected>'.$col["name"].'</option>';
                                     else echo'<option value='.$col["id"].'>'.$col["name"].'</option>';
                                 }
+                            }
                                 echo'</select>
                                 <button class="btn btn-primary btn-sm" onclick="deleteTask('.$row["id"].')">X</button>
                            <span id="lock'.$row['id'].'" class="material-symbols-outlined" onclick="LockUnlockSelect('.$row['id'].')">lock</span> 
@@ -177,7 +188,7 @@ class Communication
         $result = $this->GetCollaborators();
         while($row = $result->fetch(PDO::FETCH_ASSOC))
         {
-            echo "<tr> <td>".$row['name']."</td><td><button onclick='desactivateCollaborator(".$row['id'].")'>X</button></td></tr>";
+            echo '<tr id="collaborator'.$row["id"].'"> <td>'.$row["name"].'</td><td><button onclick="DesactivateCollaborator('.$row["id"].')">X</button></td></tr>';
         }
     }
 

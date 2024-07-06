@@ -255,10 +255,25 @@ function promptForName() {
 
 function addDelegateToList(name, id) {
   var delegateList = document.getElementById("collaboratorsList");
+  
   var newTr = document.createElement("tr");
+  newTr.id = "collaborator"+id;
   var newTd = document.createElement("td");
   newTd.textContent = name;
   newTr.appendChild(newTd);
+
+  var newTdDelete = document.createElement("td");
+  var deleteButton = document.createElement("button");
+  deleteButton.textContent = "X";
+
+  deleteButton.addEventListener("click", function() {
+  DesactivateCollaborator(id);
+});
+
+  newTdDelete.appendChild(deleteButton);
+
+  newTr.appendChild(newTdDelete);
+  
   delegateList.appendChild(newTr);
 
   var optionCollaborator = document.createElement("option");
@@ -312,4 +327,13 @@ function CheckboxChange() {
     SendTaskNotDoneRequest(this.id);
     task.style.textDecoration = "";
   }
+}
+
+function DesactivateCollaborator(id){
+  SendDelCollabarotorRequest(id)
+
+  var delegateList = document.getElementById("collaboratorsList");
+  var trToDelete = document.getElementById("collaborator"+id);
+  delegateList.removeChild(trToDelete);
+
 }

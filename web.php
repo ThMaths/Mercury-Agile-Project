@@ -11,7 +11,7 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-  <link href="style.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -21,7 +21,7 @@
             <h2>Creer une tâche</h2>
             <input type="text" id="taskInputOverlay" class="form-control" placeholder="Ajouter une tâche...">
             <button id="create" onclick="addTaskOverlay()">Valider</button>
-            <button id="closeButton" onclick="closeWindow()">Close</button>
+            <button id="closeButton" onclick="closeWindow()">Fermer</button>
         </div>
     </div>
 

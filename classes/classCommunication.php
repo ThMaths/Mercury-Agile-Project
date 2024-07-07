@@ -1,8 +1,6 @@
 <?php
-require_once("ClassConnexion.php");
-
 session_start();
-
+require_once("ClassConnexion.php");
 class Communication 
 {
     private $con;

@@ -1,5 +1,4 @@
 <?php 
-
 class Connexion 
 {
     private static $instance;

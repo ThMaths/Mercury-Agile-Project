@@ -3,7 +3,6 @@ session_start();
 require_once("classes/classCommunication.php");
 $com = new Communication;
 
-
 if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion_mdp'] != ""){ 
 
     $ident = htmlentities($_POST['connexion_id']);
@@ -13,7 +12,7 @@ if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion
         foreach($collaborators as $valeur){
             if($valeur['desactivate'] == 1){
                 $_SESSION['erreur'] = 'Erreur : Utilisateur désactivé';
-                header("location: ./form.php");
+                header("location: ./index.php");
                 exit();
             }
             if(htmlentities($_POST['connexion_mdp']) == $valeur['password']){
@@ -24,7 +23,7 @@ if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion
             else
             {//gestion si mdp incorrect
                 $_SESSION['erreur'] = 'Erreur : Mot de passe incorrect';
-                header("location: ./form.php");
+                header("location: ./index.php");
                 exit();
             }
         }
@@ -32,7 +31,7 @@ if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion
     else //gestion si aucun utilisateur trouvé
     {
         $_SESSION['erreur'] = 'Erreur : Aucun opérateur trouvé (mdp ou id incorrect)';
-        header("location: ./form.php");
+        header("location: ./index.php");
 	    exit();
     }
     
@@ -40,7 +39,7 @@ if(isset($_POST['Valider']) && $_POST['connexion_id'] != "" && $_POST['connexion
 }
 else{ //gestion si les champs ne sont pas tous remplis
     $_SESSION['erreur'] = 'Erreur : Vous devez remplir tous les champs !';
-    header("location: ./form.php");
+    header("location: ./index.php");
 	exit();
 }
 ?>

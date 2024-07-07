@@ -1,6 +1,7 @@
 document.write('<script src="scripts/requests.js"></script>');
 
 function addTask() {
+
   var taskInput = document.getElementById("taskInput");
   var taskText = taskInput.value.trim();
   var prioritySelect = document.getElementById("prioritySelect");
@@ -194,6 +195,18 @@ function NotImportantNotUrgent() {
 }
 
 function deleteAllTasks() {
+
+  var del = true;
+while(del){
+  del = deleteLoop();
+}
+  SendDelRequest();
+}
+
+function deleteLoop(){
+
+  var del = false;
+
   const element1 = document.getElementById("importantUrgentTasks");
   const element2 = document.getElementById("importantNotUrgentTasks");
   const element3 = document.getElementById("notImportantUrgentTasks");
@@ -204,10 +217,12 @@ function deleteAllTasks() {
     for (const child of element.children) {
       if (child.style.getPropertyValue("text-decoration") == "line-through") {
         child.remove();
+        del = true;
       }
     }
   }
-  SendDelRequest();
+  console.log(del);
+  return del;
 }
 
 function deleteTask(id) {
@@ -356,6 +371,7 @@ function addTaskOverlay(){
   var taskInput = document.getElementById("taskInput");
   var taskInputOverlay = document.getElementById("taskInputOverlay");
   taskInput.value = taskInputOverlay.value
+  taskInputOverlay.value = "";
 
   addTask()
 }

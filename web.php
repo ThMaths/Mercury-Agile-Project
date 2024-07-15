@@ -3,6 +3,10 @@
 <?php
   require_once("classes/classCommunication.php");
   $com = new Communication;
+  if(!isset($_SESSION['id_user'])){
+    $_SESSION["erreur"] = "Déconnecté";
+    header("location: ./index.php");
+  }
 ?>
 <head>
   <meta charset="UTF-8">
@@ -14,6 +18,21 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.php">Se déconnecter</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="profile.php">Profil</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 
 <div class="overlay" id="overlay">

@@ -1,0 +1,46 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-header h1 {
+    margin: 0;
+}
+
+.profile-info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.change-password h2 {
+    margin-top: 30px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+.card-header h1 {
+    margin: 0;
+}
+.header-nav {
+    margin-bottom: 20px;
+}
+.header-nav a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+}
+.header-nav a:hover {
+    text-decoration: underline;
+}

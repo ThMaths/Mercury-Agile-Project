@@ -72,12 +72,15 @@ function CreateLineInTaskList(
     deleteTask(liId);
   };
 
-  li.appendChild(box);
-  li.appendChild(document.createTextNode("  " + taskText + " "));
+  var space1 = document.createElement("span");
+  var space2 = document.createElement("span");
+  space1.innerHTML = "&nbsp;&nbsp;&nbsp";
+  space2.innerHTML = "&nbsp;&nbsp;&nbsp";
 
-  var space = document.createElement("span");
-  space.innerHTML = "&nbsp;&nbsp;&nbsp";
-  li.append(space);
+  li.appendChild(box);
+  li.append(space1);
+  li.appendChild(document.createTextNode(" " + taskText + " "));
+  li.append(space2);
 
   if (prioritySelect.value == 3) {
     SendGetCollaboratorRequest(function (collaborators) {
@@ -121,6 +124,7 @@ function CreateLineInTaskList(
     date.disabled = false;
     date.addEventListener("change", function () {
       SendTaskDateRequest(this, liId);
+    
     });
 
     var lock = document.createElement("span");
@@ -131,7 +135,11 @@ function CreateLineInTaskList(
       LockUnlockDate(liId);
     });
 
+    var space3 = document.createElement("span");
+    space3.innerHTML = "&nbsp;&nbsp;&nbsp";
+    
     li.appendChild(date);
+    li.append(space3);
     li.appendChild(button);
     li.appendChild(lock);
     taskList.appendChild(li);

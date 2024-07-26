@@ -300,7 +300,9 @@ function addDelegateToList(name, id) {
 
   newTr.appendChild(newTdDelete);
   
-  delegateList.appendChild(newTr);
+  var delegatebody = delegateList.getElementsByTagName("tbody")[0]
+  delegatebody.appendChild(newTr)
+
 
   var optionCollaborator = document.createElement("option");
   optionCollaborator.value = id;
@@ -359,8 +361,9 @@ function DesactivateCollaborator(id){
   SendDelCollabarotorRequest(id)
 
   var delegateList = document.getElementById("collaboratorsList");
+  var delegatebody = delegateList.getElementsByTagName("tbody")[0]
   var trToDelete = document.getElementById("collaborator"+id);
-  delegateList.removeChild(trToDelete);
+  delegatebody.removeChild(trToDelete);
 
 }
 

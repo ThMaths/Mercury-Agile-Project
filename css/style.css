@@ -1,108 +1,174 @@
-body {
-  padding-bottom: 10%;
+body{
+  padding-bottom: 10% !important;  
+  margin: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
 }
 
-.list-group {
+.list-group{
   margin-left: 10%;
 }
-
 .fixed-height {
-  height: 30vh;
-  /* Hauteur fixe à 30% de la hauteur de la fenêtre */
-  overflow-y: auto;
-  /* Ajout d'une barre de défilement si le contenu dépasse */
+  height: 30vh; /* Hauteur fixe à 40% de la hauteur de la fenêtre */
+  overflow-y: auto; /* Ajout d'une barre de défilement si le contenu dépasse */
 }
-
 .task-card {
-  border: 2px solid #000;
-  /* Bordure noire pour tous les blocs */
-  border-radius: 10px;
-  /* Coins arrondis */
-  box-shadow: 10px 10px 20px #d0d0d0, -10px -10px 20px #ffffff;
+  border: 2px solid #000; /* Bordure noire pour tous les blocs */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow:  10px 10px 20px #d0d0d0,
+               -10px -10px 20px #ffffff;
 }
-
 .bg-important-urgent {
-  border-color: #dc3545;
-  /* Rouge */
+  border-color: #dc3545; /* Rouge */
 }
-
 .bg-important-not-urgent {
-  border-color: #ffc107;
-  /* Jaune */
+  border-color: #ffc107; /* Jaune */
 }
-
 .bg-not-important-urgent {
-  border-color: #007bff;
-  /* Bleu */
+  border-color: #007bff; /* Bleu */
+}
+.bg-not-important-not-urgent {
+  border-color: #6c757d; /* Gris */
 }
 
-.bg-not-important-not-urgent {
-  border-color: #28a745;
-  /* Vert */
+/* Réduire l'opacité des boutons */
+.left-buttons button {
+  opacity: 0.8;
+}
+
+.list-group-item {
+  display: flex;
+  align-items: center;
+}
+
+.list-group-item > * {
+  margin-right: 10px; /* Ajoute un espace à droite de chaque élément enfant direct */
+}
+
+.card-title {
+  text-align: center;
+}
+
+#task{
+  border-radius: 10px;
+  background: #f5f5f5;
+  box-shadow:  10px 10px 20px #7b7b7b,
+               -10px -10px 20px #ffffff;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+#taskInput{
+  border-color: black;
+}
+#prioritySelect{
+  border-color: black;
 }
 
 .animated-button {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
+  gap: 4px;
+  padding: 5px;
+  width: 100px;
+  border-color: transparent;
   font-size: 16px;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 50px;
+  background-color: #0D6EFD;
+  border-radius: 5px;
+  font-weight: 600;
+  color: #0D6EFD;
+  box-shadow: 0 0 0 2px #0D6EFD;
   cursor: pointer;
   overflow: hidden;
-  transition: background-color 0.3s;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button svg {
+  position: absolute;
+  width: 16px;
+  fill: white;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .arr-1 {
+  right: 16px;
+}
+
+.animated-button .arr-2 {
+  left: -25%;
 }
 
 .animated-button .circle {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 300%;
-  height: 300%;
-  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: white;
   border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.3s;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+  transform: translateX(3px);
+  position: relative;
+  z-index: 1;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  color: white;
 }
 
 .animated-button:hover {
-  background-color: #0056b3;
-}
-
-.animated-button:active .circle {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.animated-button svg {
-  margin-right: 10px;
-  width: 1em;
-  height: 1em;
-  fill: white;
-}
-
-.animated-button .arr-1 {
-  position: absolute;
-  right: 100%;
-  transition: right 0.3s;
+  box-shadow: 0 0 0 12px transparent;
+  color: #212121;
+  border-radius: 5px;
 }
 
 .animated-button:hover .arr-1 {
-  right: 20%;
-}
-
-.animated-button .arr-2 {
-  position: absolute;
-  left: 100%;
-  transition: left 0.3s;
+  right: -20%;
 }
 
 .animated-button:hover .arr-2 {
-  left: 20%;
+  left: 8px;
+}
+
+.animated-button:hover .text {
+  transform: translateX(20px);
+  color: #0D6EFD;
+}
+
+.animated-button:hover svg {
+  fill: #212121;
+  fill: #0D6EFD;
+}
+
+.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px #0D6EFD;
+}
+
+.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 320px; /* espace pour le SVG */
+}
+.background-svg {
+  position: fixed; /* Fixe l'élément au bas de la page */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 320px; /* hauteur du SVG */
+  z-index: -1; /* Place le SVG derrière le reste du contenu */
 }
 
 .clickable-zone {
